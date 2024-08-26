@@ -1,0 +1,9 @@
+services:
+  server:
+    container_name: map-tool
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - "4200:80"
