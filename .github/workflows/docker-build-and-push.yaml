@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     tags:
-      - 'v*.*.*'  # This triggers the workflow when a version tag is pushed
+      - '*.*.*'  # This triggers the workflow when a version tag is pushed
 
 jobs:
   build-and-push:
