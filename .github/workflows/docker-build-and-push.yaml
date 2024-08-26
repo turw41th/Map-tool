@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - 'v*.*.*'  # This triggers the workflow when a version tag is pushed
 
 jobs:
   build-and-push:
@@ -27,9 +29,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Extract version from tag
+        id: vars
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
       - name: Build and push Docker image
         run: |
           docker buildx build --platform linux/amd64,linux/arm64 \
+            -t turwaith/map-tool:${{ env.VERSION }} \
             -t turwaith/map-tool:latest \
-            -t turwaith/map-tool:${{ github.sha }} \
             --push .
